@@ -15,7 +15,7 @@
 			});
 		</script>
 	</head>
-
+ 
 	<body>
 		<h1>BOARD LIST</h1>
 		<form method="get" action="${pageContext.request.contextPath}/BoardListController" id="pageForm">
@@ -25,7 +25,7 @@
 					<option value="20">20개씩 보기</option>
 					<option value="30">30개씩 보기</option>
 				</c:if>
-				<c:if test="${rowPerPage == 20}">
+				<c:if test="${rowPerPage == 20}"> 
 					<option value="10">10개씩 보기</option>
 					<option value="20" selected="selected">20개씩 보기</option>
 					<option value="30">30개씩 보기</option>
@@ -54,6 +54,9 @@
 		<div>
 			<a href="${pageContext.request.contextPath}/BoardListController?rowPerPage=${rowPerPage}&currentPage=${currentPage-1}">이전</a>
 			<a href="${pageContext.request.contextPath}/BoardListController?rowPerPage=${rowPerPage}&currentPage=${currentPage+1}">다음</a>
+		</div>
+		<div>
+			<a href="${pageContext.request.contextPath}/SignInFormController">SIGN IN</a>
 		</div>
 	</body>
 </html>

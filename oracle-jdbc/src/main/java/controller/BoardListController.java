@@ -19,7 +19,7 @@ import vo.Board;
 public class BoardListController extends HttpServlet {
 	private BoardService boardService;
 	private static final long serialVersionUID = 1L;
-       
+        
     /**
      * @see HttpServlet#HttpServlet()
      */
