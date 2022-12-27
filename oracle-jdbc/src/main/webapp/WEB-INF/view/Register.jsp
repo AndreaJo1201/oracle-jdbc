@@ -52,7 +52,7 @@
 					</tr>
 				</table>
 				<span style="color:red;" id="errorMsg"></span>
-				<button type="button" name="submitBtn">가입하기</button>
+				<button type="button" name="submitBtn" id="submitBtn">가입하기</button>
 			</form>
 		</div>
 	</body>

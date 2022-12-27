@@ -30,12 +30,6 @@
 					}
 				});
 			});
-			
-			$(document).ready(function() {
-				if(${loginFalse}) {
-					alert('가입한 회원이 아니거나 비밀번호가 틀렸습니다.');
-				};
-			});
 		</script>
 	</head>
  

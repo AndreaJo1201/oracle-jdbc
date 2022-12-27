@@ -1,7 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,6 +17,7 @@ import vo.Member;
  */
 @WebServlet("/SignInActionController")
 public class SignInActionController extends HttpServlet {
+	private MemberService memberService;
 	private static final long serialVersionUID = 1L;
        
     /**
@@ -37,18 +37,18 @@ public class SignInActionController extends HttpServlet {
 		
 		Member loginMember = (Member)session.getAttribute("loginMember");
 		if(loginMember != null) {
-			response.sendRedirect(request.getContextPath()+"BoardListController");
+			response.sendRedirect(request.getContextPath()+"/BoardListController");
 		}
 		
 		Member paramMember = new Member();
 		paramMember.setMemberId(request.getParameter("memberId"));
 		paramMember.setMemberPw(request.getParameter("memberPw"));
 		
-		MemberService memberService = new MemberService();
-		ArrayList<Member> returnMember = memberService.getSignIn(paramMember);
+		this.memberService = new MemberService();
+		Member returnMember = memberService.getSignIn(paramMember);
 		if(returnMember == null) {
-			request.setAttribute("loginFalse", true);
-			response.sendRedirect(request.getContextPath()+"/SingInFormController");
+			response.sendRedirect(request.getContextPath()+"/SignInFormController");
+			return;
 		}
 		session.setAttribute("loginMember", returnMember);
 		

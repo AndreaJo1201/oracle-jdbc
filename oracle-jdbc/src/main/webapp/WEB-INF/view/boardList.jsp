@@ -55,8 +55,15 @@
 			<a href="${pageContext.request.contextPath}/BoardListController?rowPerPage=${rowPerPage}&currentPage=${currentPage-1}">이전</a>
 			<a href="${pageContext.request.contextPath}/BoardListController?rowPerPage=${rowPerPage}&currentPage=${currentPage+1}">다음</a>
 		</div>
-		<div>
-			<a href="${pageContext.request.contextPath}/SignInFormController">SIGN IN</a>
-		</div>
+		<c:if test="${loginMember==null}">
+			<div>
+				<a href="${pageContext.request.contextPath}/SignInFormController">SIGN IN</a>
+			</div>
+		</c:if>
+		<c:if test="${loginMember!=null}">
+			<div>
+				<a href="${pageContext.request.contextPath}/SignOutController">SIGN OUT</a>
+			</div>
+		</c:if>
 	</body>
 </html>
