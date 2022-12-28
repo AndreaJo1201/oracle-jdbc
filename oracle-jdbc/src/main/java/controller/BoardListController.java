@@ -47,14 +47,17 @@ public class BoardListController extends HttpServlet {
 		int currentPage = 1;
 		if(request.getParameter("currentPage") != null) {
 			currentPage = Integer.parseInt(request.getParameter("currentPage"));
-			if(currentPage < 1) {
-				currentPage = 1;
-			}
 		}
 		
 		int rowPerPage = 10;
 		if(request.getParameter("rowPerPage") != null) {
 			rowPerPage = Integer.parseInt(request.getParameter("rowPerPage"));
+		}
+		
+		if(currentPage < 1) {
+			currentPage = 1;
+			response.sendRedirect(request.getContextPath()+"/board/boardList?currentPage=1"+"&rowPerPage="+rowPerPage);
+			return;
 		}
 		
 		//lastPage = 전체갯수 / rowPerPage
@@ -64,6 +67,8 @@ public class BoardListController extends HttpServlet {
 		int lastPage = (int)Math.ceil((double)boardService.getBoardCount() / (double)rowPerPage);
 		if(currentPage > lastPage) {
 			currentPage = lastPage;
+			response.sendRedirect(request.getContextPath()+"/board/boardList?currentPage="+lastPage+"&rowPerPage="+rowPerPage);
+			return;
 		}
 		ArrayList<Board> list = boardService.getBoardListByPage(currentPage, rowPerPage);
 		request.setAttribute("boardList", list);
