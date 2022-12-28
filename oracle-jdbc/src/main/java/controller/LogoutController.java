@@ -7,17 +7,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
 /**
- * Servlet implementation class SignOutController
+ * Servlet implementation class LogoutController
  */
-@WebServlet("/SignOutController")
-public class SignOutController extends HttpServlet {
+@WebServlet("/member/logout")
+public class LogoutController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SignOutController() {
+    public LogoutController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -27,7 +28,7 @@ public class SignOutController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.getSession().invalidate();
-		response.sendRedirect(request.getContextPath()+"/BoardListController");
+		response.sendRedirect(request.getContextPath()+"/home");
 	}
 
 }

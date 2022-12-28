@@ -12,25 +12,44 @@ import service.MemberService;
 import vo.Member;
 
 /**
- * Servlet implementation class RegisterActionController
+ * Servlet implementation class AddMemberController
  */
-@WebServlet("/RegisterActionController")
-public class RegisterActionController extends HttpServlet {
+@WebServlet("/member/addMember")
+public class AddMemberController extends HttpServlet {
 	private MemberService memberService;
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public RegisterActionController() {
+    public AddMemberController() {
         super();
         // TODO Auto-generated constructor stub
     }
 
 	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+    // addMemberForm(회원가입 폼)
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		
+		HttpSession session = request.getSession();
+		Member loginMember = (Member)session.getAttribute("loginMember"); // Object -> Member 형변환
+		if(loginMember!=null) {
+			response.sendRedirect(request.getContextPath()+"/home");
+			return;
+		}
+		request.getRequestDispatcher("/WEB-INF/view/member/addMember.jsp").forward(request, response);
+	}
+
+	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	// addMemberAction(회원가입 액션)
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		
 		HttpSession session = request.getSession();
 		Member loginMember = (Member)session.getAttribute("loginMember"); // Object -> Member 형변환
 		if(loginMember!=null) {
@@ -46,11 +65,11 @@ public class RegisterActionController extends HttpServlet {
 		this.memberService = new MemberService();
 		int result = memberService.getInsertMember(paramMember);
 		if(result == 0) {
-			response.sendRedirect(request.getContextPath()+"/RegisterFormController");
+			request.getRequestDispatcher("/WEB-INF/view/member/addMember.jsp").forward(request, response);
 			return;
 		}
 		
-		response.sendRedirect(request.getContextPath()+"/SignInFormController");
+		response.sendRedirect(request.getContextPath()+"/home");
 	}
 
 }

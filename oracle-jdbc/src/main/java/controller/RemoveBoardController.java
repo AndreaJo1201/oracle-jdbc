@@ -1,8 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,19 +12,18 @@ import service.BoardService;
 import vo.Board;
 import vo.Member;
 
-
 /**
- * Servlet implementation class BoardListController
+ * Servlet implementation class RemoveBoardController
  */
-@WebServlet("/board/boardList")
-public class BoardListController extends HttpServlet {
+@WebServlet("/board/removeBoard")
+public class RemoveBoardController extends HttpServlet {
 	private BoardService boardService;
 	private static final long serialVersionUID = 1L;
-        
+       
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public BoardListController() {
+    public RemoveBoardController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,6 +32,10 @@ public class BoardListController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		/*
+		 * view -> boardList
+		 * alert창으로 진짜 삭제할것인지 확인
+		 */
 		request.setCharacterEncoding("UTF-8");
 		
 		HttpSession session = request.getSession();
@@ -44,31 +45,17 @@ public class BoardListController extends HttpServlet {
 			return;
 		}
 		
-		int currentPage = 1;
-		if(request.getParameter("currentPage") != null) {
-			currentPage = Integer.parseInt(request.getParameter("currentPage"));
-			if(currentPage < 1) {
-				currentPage = 1;
-			}
-		}
-		
-		int rowPerPage = 10;
-		if(request.getParameter("rowPerPage") != null) {
-			rowPerPage = Integer.parseInt(request.getParameter("rowPerPage"));
-		}
-		
+		Board paramBoard = new Board();
+		paramBoard.setBoardNo(Integer.parseInt(request.getParameter("boardNo")));
+		paramBoard.setMemberId(loginMember.getMemberId());
 		this.boardService = new BoardService();
-		ArrayList<Board> list = boardService.getBoardListByPage(currentPage, rowPerPage);
-		request.setAttribute("boardList", list);
-		request.setAttribute("currentPage", currentPage);
-		request.setAttribute("rowPerPage", rowPerPage);
+		int result = boardService.getDeleteBoard(paramBoard);
+		if(result == 0) {
+			response.sendRedirect(request.getContextPath()+"/board/boardOne?boardNo="+paramBoard.getBoardNo());
+			return;
+		}
 		
-		/*
-		 * VIEW 메뉴구성
-		 * 1) 글입력 / 끝 
-		 * 2) 글 상세보기 / 끝
-		 */
-		request.getRequestDispatcher("/WEB-INF/view/board/boardList.jsp").forward(request, response);
+		response.sendRedirect(request.getContextPath()+"/board/boardList");
 	}
 
 }

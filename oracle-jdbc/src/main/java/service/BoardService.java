@@ -37,4 +37,106 @@ public class BoardService {
 		
 		return list;
 	}
+	
+	public Board getBoardListByNo(Board board) {
+		Board returnBoard = null;
+		Connection conn = null;
+		try {
+			conn = DBUtil.getConnection();
+			boardDao = new BoardDao();
+			returnBoard = boardDao.selectBoardListByNo(conn, board);
+			conn.commit();
+		} catch(Exception e) {
+			try {
+				conn.rollback();
+			} catch(Exception e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return returnBoard;
+	}
+	
+	public boolean getInsertBoard(Board board) {
+		boolean result = false;
+		Connection conn = null;
+		try {
+			conn = DBUtil.getConnection();
+			boardDao = new BoardDao();
+			result = boardDao.insertBoard(conn, board);
+			conn.commit();
+		} catch(Exception e) {
+			try {
+				conn.rollback();
+			} catch(Exception e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
+	
+	public boolean getUpdateBoard(Board board) {
+		boolean result = false;
+		Connection conn = null;
+		try {
+			conn = DBUtil.getConnection();
+			boardDao = new BoardDao();
+			result = boardDao.updateBoard(conn, board);
+			conn.commit();
+		} catch(Exception e) {
+			try {
+				conn.rollback();
+			} catch(Exception e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
+	
+	public int getDeleteBoard(Board board) {
+		int result = 0;
+		Connection conn = null;
+		try {
+			conn = DBUtil.getConnection();
+			boardDao = new BoardDao();
+			result = boardDao.removeBoard(conn, board);
+			conn.commit();
+		} catch(Exception e) {
+			try {
+				conn.rollback();
+			} catch(Exception e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
 }

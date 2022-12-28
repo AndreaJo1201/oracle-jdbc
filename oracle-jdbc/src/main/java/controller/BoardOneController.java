@@ -1,8 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,19 +12,18 @@ import service.BoardService;
 import vo.Board;
 import vo.Member;
 
-
 /**
- * Servlet implementation class BoardListController
+ * Servlet implementation class BoardOneController
  */
-@WebServlet("/board/boardList")
-public class BoardListController extends HttpServlet {
+@WebServlet("/board/boardOne")
+public class BoardOneController extends HttpServlet {
 	private BoardService boardService;
 	private static final long serialVersionUID = 1L;
-        
+       
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public BoardListController() {
+    public BoardOneController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,6 +32,10 @@ public class BoardListController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		/*
+		 * 1) 수정기능(세션id = 작성자아이디일치) / 끝
+		 * 2) 삭제기능(세션id = 작성자아이디일치) / 끝
+		 */
 		request.setCharacterEncoding("UTF-8");
 		
 		HttpSession session = request.getSession();
@@ -43,32 +44,19 @@ public class BoardListController extends HttpServlet {
 			response.sendRedirect(request.getContextPath()+"/home");
 			return;
 		}
-		
-		int currentPage = 1;
-		if(request.getParameter("currentPage") != null) {
-			currentPage = Integer.parseInt(request.getParameter("currentPage"));
-			if(currentPage < 1) {
-				currentPage = 1;
-			}
+		Board paramBoard = new Board();
+		if(request.getParameter("boardNo") == null || request.getParameter("boardNo").equals("")) {
+			response.sendRedirect(request.getContextPath()+"/board/boardList");
+			return;
 		}
-		
-		int rowPerPage = 10;
-		if(request.getParameter("rowPerPage") != null) {
-			rowPerPage = Integer.parseInt(request.getParameter("rowPerPage"));
-		}
-		
+		paramBoard.setBoardNo(Integer.parseInt(request.getParameter("boardNo")));
 		this.boardService = new BoardService();
-		ArrayList<Board> list = boardService.getBoardListByPage(currentPage, rowPerPage);
-		request.setAttribute("boardList", list);
-		request.setAttribute("currentPage", currentPage);
-		request.setAttribute("rowPerPage", rowPerPage);
 		
-		/*
-		 * VIEW 메뉴구성
-		 * 1) 글입력 / 끝 
-		 * 2) 글 상세보기 / 끝
-		 */
-		request.getRequestDispatcher("/WEB-INF/view/board/boardList.jsp").forward(request, response);
+		Board resultBoard = boardService.getBoardListByNo(paramBoard);
+		request.setAttribute("boardOne", resultBoard);
+		
+		request.getRequestDispatcher("/WEB-INF/view/board/boardOne.jsp").forward(request, response);
+		
 	}
 
 }

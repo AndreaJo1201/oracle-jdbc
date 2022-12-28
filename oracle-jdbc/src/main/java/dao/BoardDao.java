@@ -30,6 +30,24 @@ public class BoardDao {
 		return list;
 	}
 	
+	public Board selectBoardListByNo(Connection conn, Board board) throws Exception {
+		Board returnBoard = new Board();
+		String sql = "SELECT * FROM board WHERE board_no = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, board.getBoardNo());
+		
+		ResultSet rs = stmt.executeQuery();
+		if(rs.next()) {
+			returnBoard.setBoardNo(rs.getInt("board_no"));
+			returnBoard.setBoardTitle(rs.getString("board_title"));
+			returnBoard.setBoardContent(rs.getString("board_content"));
+			returnBoard.setMemberId(rs.getString("member_id"));
+			returnBoard.setCreatedate(rs.getString("createdate"));
+			returnBoard.setUpdatedate(rs.getString("updatedate"));
+		}
+		return returnBoard;
+	}
+	
 	public boolean insertBoard(Connection conn, Board board) throws Exception {
 		boolean result = false;
 		String sql = "INSERT INTO board(board_no, board_title, board_content, member_id, updatedate, createdate)"
@@ -45,6 +63,30 @@ public class BoardDao {
 		
 		stmt.close();
 		
+		return result;
+	}
+	
+	public boolean updateBoard(Connection conn, Board board) throws Exception {
+		boolean result = false;
+		String sql = "UPDATE board SET board_title = ?, board_content = ?, updatedate = sysdate WHERE board_no = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, board.getBoardTitle());
+		stmt.setString(2, board.getBoardContent());
+		stmt.setInt(3, board.getBoardNo());
+		if(stmt.executeUpdate() == 1) {
+			result = true;
+		}
+		
+		return result;
+	}
+	
+	public int removeBoard(Connection conn, Board board) throws Exception {
+		int result = 0;
+		String sql = "DELETE FROM board WHERE board_no = ? AND member_id = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, board.getBoardNo());
+		stmt.setString(2, board.getMemberId());
+		result = stmt.executeUpdate();
 		return result;
 	}
 }
