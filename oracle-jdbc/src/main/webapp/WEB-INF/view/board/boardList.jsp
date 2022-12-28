@@ -58,5 +58,8 @@
 		<div>
 			<a href="${pageContext.request.contextPath}/board/addBoard">새 글 작성</a>
 		</div>
+		<div>
+			<a href="${pageContext.request.contextPath}/home">뒤로 가기</a>
+		</div>
 	</body>
 </html>

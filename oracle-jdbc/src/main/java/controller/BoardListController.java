@@ -57,7 +57,14 @@ public class BoardListController extends HttpServlet {
 			rowPerPage = Integer.parseInt(request.getParameter("rowPerPage"));
 		}
 		
+		//lastPage = 전체갯수 / rowPerPage
+		
+		
 		this.boardService = new BoardService();
+		int lastPage = (int)Math.ceil((double)boardService.getBoardCount() / (double)rowPerPage);
+		if(currentPage > lastPage) {
+			currentPage = lastPage;
+		}
 		ArrayList<Board> list = boardService.getBoardListByPage(currentPage, rowPerPage);
 		request.setAttribute("boardList", list);
 		request.setAttribute("currentPage", currentPage);

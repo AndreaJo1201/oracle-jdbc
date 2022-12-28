@@ -56,5 +56,8 @@
 				<button type="button" name="submitBtn" id="submitBtn">수정하기</button>
 			</form>
 		</div>
+		<div>
+			<a href="${pageContext.request.contextPath}/member/memberOne">뒤로 가기</a>
+		</div>
 	</body>
 </html>

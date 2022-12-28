@@ -89,4 +89,15 @@ public class BoardDao {
 		result = stmt.executeUpdate();
 		return result;
 	}
+	
+	public int selectBoardCount(Connection conn) throws Exception {
+		int cnt = 0;
+		String sql = "SELECT COUNT(*) cnt FROM board";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		ResultSet rs = stmt.executeQuery();
+		if(rs.next()) {
+			cnt = rs.getInt("cnt");
+		}
+		return cnt;
+	}
 }

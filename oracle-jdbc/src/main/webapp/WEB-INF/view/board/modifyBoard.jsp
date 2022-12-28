@@ -66,7 +66,7 @@
 			</div>
 		</form>
 		<div>
-			<a href="${pageContext.request.contextPath}/board/boardList">뒤로 가기</a>
+			<a href="${pageContext.request.contextPath}/board/boardOne?boardNo=${modifyBoard.boardNo}">뒤로 가기</a>
 		</div>
 	</body>
 </html>

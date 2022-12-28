@@ -50,6 +50,7 @@
 				<span style="color:red;" id="errorMsg"></span>
 				<button type="button" name="submitBtn" id="submitBtn">LOG IN</button>
 			</form>
+			<a href="${pageContext.request.contextPath}/home">뒤로 가기</a>
 		</div>
 	</body>
 </html>

@@ -54,6 +54,7 @@
 				<span style="color:red;" id="errorMsg"></span>
 				<button type="button" name="submitBtn" id="submitBtn">가입하기</button>
 			</form>
+			<a href="${pageContext.request.contextPath}/home">뒤로 가기</a>
 		</div>
 	</body>
 </html>

@@ -49,5 +49,8 @@
 				<button type="button" name="submitBtn" id="submitBtn">탈퇴하기</button>
 			</form>
 		</div>
+		<div>
+			<a href="${pageContext.request.contextPath}/member/memberOne">뒤로 가기</a>
+		</div>
 	</body>
 </html>
