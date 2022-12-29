@@ -18,7 +18,7 @@ public class HomeController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
-     * @see HttpServlet#HttpServlet()
+     * @see HttpServlet#HttpServlet()\
      */
     public HomeController() {
         super();
@@ -32,12 +32,12 @@ public class HomeController extends HttpServlet {
 		/*
 		 *  VIEW -> forward -> /WEB-INF/view/home.jsp
 		 *  메뉴 구성(로그인 전 후 분기)
-		 *  로그인 전
-		 *  1) 로그인 / 끝
-		 *  2) 회원가입 / 끝
+		 *  로그인 전 / CSS
+		 *  1) 로그인 / 끝 /CSS
+		 *  2) 회원가입 / 끝 / CSS
 		 *  
 		 *  로그인 후
-		 *  1) 로그아웃 / 끝
+		 *  1) 로그아웃 / 끝 / X
 		 *  2) 회원 정보 / 끝
 		 *  3) 게시판 리스트 / 끝
 		 */
