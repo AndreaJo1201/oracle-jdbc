@@ -70,10 +70,19 @@ public class BoardListController extends HttpServlet {
 			response.sendRedirect(request.getContextPath()+"/board/boardList?currentPage="+lastPage+"&rowPerPage="+rowPerPage);
 			return;
 		}
+		
+		final int PAGE_COUNT = 10;
+		int beginPage = (currentPage-1)/PAGE_COUNT*PAGE_COUNT+1;
+		int endPage = beginPage+PAGE_COUNT-1;
+		
+		
 		ArrayList<Board> list = boardService.getBoardListByPage(currentPage, rowPerPage);
 		request.setAttribute("boardList", list);
 		request.setAttribute("currentPage", currentPage);
+		request.setAttribute("lastPage", lastPage);
 		request.setAttribute("rowPerPage", rowPerPage);
+		request.setAttribute("beginPage", beginPage);
+		request.setAttribute("endPage", endPage);
 		
 		/*
 		 * VIEW 메뉴구성
