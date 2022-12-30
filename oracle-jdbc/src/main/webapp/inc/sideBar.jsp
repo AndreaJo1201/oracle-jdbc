@@ -19,6 +19,7 @@
             <div class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>회원정보</a>
                 <div class="dropdown-menu bg-transparent border-0">
+               		<a href="${pageContext.request.contextPath}/member/memberOne" class="dropdown-item">기본 정보</a>
                     <a href="${pageContext.request.contextPath}/member/modifyMember" class="dropdown-item">회원정보 수정</a>
                     <a href="${pageContext.request.contextPath}/member/removeMember" class="dropdown-item">회원탈퇴</a>
                 </div>

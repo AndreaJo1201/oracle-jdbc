@@ -145,7 +145,7 @@
 								</li>
 							</ul>
 						</div>
-						<div class="p-2">
+						<div class="p-2 d-flex justify-content-end">
 							<a href="${pageContext.request.contextPath}/board/addBoard" class="btn btn-primary">새 글 작성</a>
 						</div>
 					</div>
