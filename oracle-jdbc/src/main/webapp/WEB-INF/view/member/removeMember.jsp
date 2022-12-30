@@ -76,7 +76,7 @@
 		                            <a href="${pageContext.request.contextPath}/home" class="">
 		                                <h3 class="text-primary"><i class="fa fa-user-edit me-2"></i>ORACLE</h3>
 		                            </a>
-		                            <h3>정보 수정</h3>
+		                            <h3>회원 탈퇴</h3>
 		                        </div>
 		                        <form action="${pageContext.request.contextPath}/member/removeMember" method="post" id="removeMemberForm">
 									<div class="form-floating mb-3">
