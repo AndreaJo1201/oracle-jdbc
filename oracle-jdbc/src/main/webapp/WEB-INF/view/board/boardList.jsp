@@ -32,9 +32,21 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 		<script>
 			$(document).ready(function() {
+				let searchCheck = false;
 				$('#rowPerPage').change(function() {
-					$('#pageForm').submit();
+						$('#pageForm').submit();
 				});
+				
+				$('#searchBtn').click(function() {
+					if($('#searchVal').val().length < 1) {
+						alert('검색어가 없습니다.');
+					} else {
+						searchCheck = true;
+					}
+					if(searchCheck) {
+						$('#searchForm').submit();
+					}
+				})
 			});
 		</script>
 	</head>
@@ -58,7 +70,7 @@
 					<div class="row bg-secondary h-100 rounded mx-0">
 						<h1 class="mt-4">BOARD LIST</h1>
 						<div class="container">
-							<form method="get" action="${pageContext.request.contextPath}/board/boardList" id="pageForm" class="text-end">
+							<form method="get" action="${pageContext.request.contextPath}/board/boardList?searchVal=${searchVal}" id="pageForm" class="text-end">
 								<select name="rowPerPage" id="rowPerPage">
 									<c:if test="${rowPerPage == 10}">
 										<option value="10" selected="selected">10개씩 보기</option>
@@ -97,26 +109,54 @@
 								</tbody>
 							</table>
 						</div>
+						
+						<!-- 검색 처리 -->
+						<div class="text-center p-2 container">
+							<form method="get" action="${pageContext.request.contextPath}/board/boardList?rowPerPage=${rowPerPage}" id="searchForm" >
+							<input type="hidden" value="${rowPerPage}" name="rowPerPage">
+							<select name="category" id="category">
+								<c:if test="${category eq 'title'}">
+									<option value="title" selected="selected">제목</option>
+									<option value="content">내용</option>
+									<option value="member">작성자</option>
+								</c:if>
+								<c:if test="${category eq 'content'}"> 
+									<option value="title">제목</option>
+									<option value="content" selected="selected">내용</option>
+									<option value="member">작성자</option>
+								</c:if>
+								<c:if test="${category eq 'member'}">
+									<option value="title">제목</option>
+									<option value="content">내용</option>
+									<option value="member" selected="selected">작성자</option>
+								</c:if>
+							</select>
+							<input type="text" name="searchVal" id="searchVal" value="${searchVal}">
+							<button type="button" name="searchBtn" id="searchBtn" class="btn btn-sm btn-primary">검색</button>
+							</form>
+						</div>
+						
+						<!-- 페이징처리 -->
 						<div class="text-center p-2">
 							<ul class="pagination justify-content-center">
 								<li class="page-item">
-									<a href="${pageContext.request.contextPath}/board/boardList?rowPerPage=${rowPerPage}&currentPage=1" class="page-link">처음</a>
+									<a href="${pageContext.request.contextPath}/board/boardList?rowPerPage=${rowPerPage}&currentPage=1&searchVal=${searchVal}&category=${category}" class="page-link">처음</a>
 								</li>
 								<c:if test="${currentPage > 1}">
 									<li class="page-item">
-										<a href="${pageContext.request.contextPath}/board/boardList?rowPerPage=${rowPerPage}&currentPage=${currentPage-1}" class="page-link">이전</a>
+										<a href="${pageContext.request.contextPath}/board/boardList?rowPerPage=${rowPerPage}&currentPage=${currentPage-1}&searchVal=${searchVal}&category=${category}" class="page-link">이전</a>
 									</li>
 								</c:if>
 								<c:if test="${endPage <= lastPage}">
 									<c:forEach var="i" begin="${beginPage}" end="${endPage}" step="1">
 										<c:if test="${currentPage == i}">
 											<li class="page-item active">
-												<a href="${pageContext.request.contextPath}/board/boardList?rowPerPage=${rowPerPage}&currentPage=${i}" class="page-link">${i}</a>
+												<a href="${pageContext.request.contextPath}/board/boardList?rowPerPage=${rowPerPage}&currentPage=${i}&searchVal=${searchVal}&category=${category}" class="page-link">${i}</a>
 											</li>
 										</c:if>
 										<c:if test="${currentPage != i}">
 											<li class="page-item">
-												<a href="${pageContext.request.contextPath}/board/boardList?rowPerPage=${rowPerPage}&currentPage=${i}" class="page-link">${i}</a>
+												<a href="${pageContext.request.contextPath}/board/boardList?rowPerPage=${rowPerPage}&currentPage=${i}&searchVal=${searchVal}&category=${category}" class="page-link">${i}</a>
 											</li>
 										</c:if>
 									</c:forEach>
@@ -125,23 +165,23 @@
 									<c:forEach var="i" begin="${beginPage}" end="${lastPage}" step="1">
 										<c:if test="${currentPage == i}">
 											<li class="page-item active">
-												<a href="${pageContext.request.contextPath}/board/boardList?rowPerPage=${rowPerPage}&currentPage=${i}" class="page-link">${i}</a>
+												<a href="${pageContext.request.contextPath}/board/boardList?rowPerPage=${rowPerPage}&currentPage=${i}&searchVal=${searchVal}&category=${category}" class="page-link">${i}</a>
 											</li>
 										</c:if>
 										<c:if test="${currentPage != i}">
 											<li class="page-item">
-												<a href="${pageContext.request.contextPath}/board/boardList?rowPerPage=${rowPerPage}&currentPage=${i}" class="page-link">${i}</a>
+												<a href="${pageContext.request.contextPath}/board/boardList?rowPerPage=${rowPerPage}&currentPage=${i}&searchVal=${searchVal}&category=${category}" class="page-link">${i}</a>
 											</li>
 										</c:if>
 									</c:forEach>
 								</c:if>
 								<c:if test="${currentPage < lastPage}">
 									<li class="page-item">
-										<a href="${pageContext.request.contextPath}/board/boardList?rowPerPage=${rowPerPage}&currentPage=${currentPage+1}" class="page-link">다음</a>
+										<a href="${pageContext.request.contextPath}/board/boardList?rowPerPage=${rowPerPage}&currentPage=${currentPage+1}&searchVal=${searchVal}&category=${category}" class="page-link">다음</a>
 									</li>
 								</c:if>
 								<li class="page-item">
-									<a href="${pageContext.request.contextPath}/board/boardList?rowPerPage=${rowPerPage}&currentPage=${lastPage}" class="page-link">마지막</a>	
+									<a href="${pageContext.request.contextPath}/board/boardList?rowPerPage=${rowPerPage}&currentPage=${lastPage}&searchVal=${searchVal}&category=${category}" class="page-link">마지막</a>	
 								</li>
 							</ul>
 						</div>
@@ -199,7 +239,6 @@
 				<jsp:include page="/inc/footer.jsp"></jsp:include>
 	        </div>
 	        <!-- content end -->
-	        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
 		</div>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
 		<script src="${pageContext.request.contextPath}/lib/chart/chart.min.js"></script>

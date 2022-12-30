@@ -60,11 +60,29 @@ public class BoardListController extends HttpServlet {
 			return;
 		}
 		
+		String category = "title";
+		if(request.getParameter("category") != null) {
+			category = request.getParameter("category");
+		}
+		String searchVal = null;
+		if(request.getParameter("searchVal") != null && !request.getParameter("searchVal").equals("")) {
+			searchVal = request.getParameter("searchVal");
+		}
+		
 		//lastPage = 전체갯수 / rowPerPage
 		
-		
+		System.out.println("searchVal: "+request.getParameter("searchVal"));
 		this.boardService = new BoardService();
 		int lastPage = (int)Math.ceil((double)boardService.getBoardCount() / (double)rowPerPage);
+		if(searchVal != null) {
+			if(category.equals("title")) {
+				lastPage = (int)Math.ceil((double)boardService.getBoardCountByTitle(searchVal) / (double)rowPerPage);
+			} else if(category.equals("content")) {
+				lastPage = (int)Math.ceil((double)boardService.getBoardCountByContent(searchVal) / (double)rowPerPage);
+			} else if(category.equals("member")) {
+				lastPage = (int)Math.ceil((double)boardService.getBoardCountByName(searchVal) / (double)rowPerPage);
+			}
+		}
 		if(currentPage > lastPage) {
 			currentPage = lastPage;
 			response.sendRedirect(request.getContextPath()+"/board/boardList?currentPage="+lastPage+"&rowPerPage="+rowPerPage);
@@ -76,13 +94,29 @@ public class BoardListController extends HttpServlet {
 		int endPage = beginPage+PAGE_COUNT-1;
 		
 		
-		ArrayList<Board> list = boardService.getBoardListByPage(currentPage, rowPerPage);
+		ArrayList<Board> list = null;
+		
+		if(searchVal == null) {
+			list = boardService.getBoardListByPage(currentPage, rowPerPage);
+		} else {
+			if(category.equals("title")) {
+				list = boardService.getBoardListByPageAndTitle(currentPage, rowPerPage, searchVal);
+			} else if(category.equals("content")) {
+				list = boardService.getBoardListByPageAndContent(currentPage, rowPerPage, searchVal);
+			} else if(category.equals("member")) {
+				list = boardService.getBoardListByPageAndName(currentPage, rowPerPage, searchVal);
+			}
+		}
+		
+		
 		request.setAttribute("boardList", list);
 		request.setAttribute("currentPage", currentPage);
 		request.setAttribute("lastPage", lastPage);
 		request.setAttribute("rowPerPage", rowPerPage);
 		request.setAttribute("beginPage", beginPage);
 		request.setAttribute("endPage", endPage);
+		request.setAttribute("category", category);
+		request.setAttribute("searchVal", searchVal);
 		
 		/*
 		 * VIEW 메뉴구성

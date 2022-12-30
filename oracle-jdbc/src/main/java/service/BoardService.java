@@ -38,6 +38,93 @@ public class BoardService {
 		return list;
 	}
 	
+	public ArrayList<Board> getBoardListByPageAndTitle(int currentPage, int rowPerPage, String searchVal) {
+		ArrayList<Board> list = null;
+		Connection conn = null;
+		try {
+			conn = DBUtil.getConnection();
+			int beginRow = (currentPage-1) * rowPerPage + 1;
+			int endRow = beginRow + rowPerPage -1;
+			boardDao = new BoardDao();
+			list = boardDao.selectBoardListByPageAndTitle(conn, beginRow, endRow, searchVal);
+			conn.commit();
+			
+		} catch(Exception e) {
+			try {
+				conn.rollback();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return list;
+	}
+	
+	public ArrayList<Board> getBoardListByPageAndContent(int currentPage, int rowPerPage, String searchVal) {
+		ArrayList<Board> list = null;
+		Connection conn = null;
+		try {
+			conn = DBUtil.getConnection();
+			int beginRow = (currentPage-1) * rowPerPage + 1;
+			int endRow = beginRow + rowPerPage -1;
+			boardDao = new BoardDao();
+			list = boardDao.selectBoardListByPageAndContent(conn, beginRow, endRow, searchVal);
+			conn.commit();
+			
+		} catch(Exception e) {
+			try {
+				conn.rollback();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return list;
+	}
+	
+	public ArrayList<Board> getBoardListByPageAndName(int currentPage, int rowPerPage, String searchVal) {
+		ArrayList<Board> list = null;
+		Connection conn = null;
+		try {
+			conn = DBUtil.getConnection();
+			int beginRow = (currentPage-1) * rowPerPage + 1;
+			int endRow = beginRow + rowPerPage -1;
+			boardDao = new BoardDao();
+			list = boardDao.selectBoardListByPageAndName(conn, beginRow, endRow, searchVal);
+			conn.commit();
+			
+		} catch(Exception e) {
+			try {
+				conn.rollback();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return list;
+	}
+	
 	public Board getBoardListByNo(Board board) {
 		Board returnBoard = null;
 		Connection conn = null;
@@ -147,6 +234,81 @@ public class BoardService {
 			conn = DBUtil.getConnection();
 			boardDao = new BoardDao();
 			result = boardDao.selectBoardCount(conn);
+			conn.commit();
+		} catch(Exception e) {
+			try {
+				conn.rollback();
+			} catch(Exception e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+	
+	public int getBoardCountByTitle(String searchVal) {
+		int result = 0;
+		Connection conn = null;
+		try {
+			conn = DBUtil.getConnection();
+			boardDao = new BoardDao();
+			result = boardDao.selectBoardCountByTitle(conn, searchVal);
+			conn.commit();
+		} catch(Exception e) {
+			try {
+				conn.rollback();
+			} catch(Exception e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+	
+	public int getBoardCountByContent(String searchVal) {
+		int result = 0;
+		Connection conn = null;
+		try {
+			conn = DBUtil.getConnection();
+			boardDao = new BoardDao();
+			result = boardDao.selectBoardCountByContent(conn, searchVal);
+			conn.commit();
+		} catch(Exception e) {
+			try {
+				conn.rollback();
+			} catch(Exception e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+	
+	public int getBoardCountByName(String searchVal) {
+		int result = 0;
+		Connection conn = null;
+		try {
+			conn = DBUtil.getConnection();
+			boardDao = new BoardDao();
+			result = boardDao.selectBoardCountByName(conn, searchVal);
 			conn.commit();
 		} catch(Exception e) {
 			try {
